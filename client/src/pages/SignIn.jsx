@@ -1,13 +1,17 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { signIn } from "../services/authService"
+import { signInSuccess, signInFailure, signInStart, userDataOnChange } from "../redux/user/userSlice"
+import {useDispatch, useSelector} from "react-redux"
 
 function SignIn() {
   const [formData, setFormData] = useState({email: '', password: ''})
   const [disable, setDisable] = useState(true)
-  const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
+  // const [error, setError] = useState(false)
+  // const [loading, setLoading] = useState(false)
+  const {loading, error} = useSelector((state) => state.user)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -16,6 +20,7 @@ function SignIn() {
       ...prevData,
       [id]: value
     }));
+    dispatch(userDataOnChange(formData))
 
     if (formData.email.length > 0 && formData.password.length > 1) {
       setDisable(false);
@@ -28,17 +33,21 @@ function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      setLoading(true)
+      //setLoading(true)
+      dispatch(signInStart())
 
-      await signIn(formData)
+      const response = await signIn(formData)
+      const data = response.data
+      console.log(data)
 
-      setLoading(false)
-      setError(false)
+      // setLoading(false)
+      // setError(false)
+      dispatch(signInSuccess(data))
       navigate("/")
-    // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      setLoading(false)
-      setError(true)
+      // setLoading(false)
+      // setError(true)
+      dispatch(signInFailure(error))
     }
   }
 
