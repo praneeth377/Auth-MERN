@@ -1,11 +1,12 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { signUp } from "../services/authService"
 
 function SignUp() {
   const [formData, setFormData] = useState({})
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setFormData({
@@ -23,6 +24,7 @@ function SignUp() {
 
       setLoading(false)
       setError(false)
+      navigate("/sign-in")
     // eslint-disable-next-line no-unused-vars
     } catch (error) {
       setLoading(false)
@@ -68,4 +70,4 @@ function SignUp() {
   )
 }
 
-export default SignUp
+export default SignUp;

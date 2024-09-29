@@ -10,7 +10,7 @@ const port = 3000;
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors())
+app.use(cors({origin: 'http://localhost:5173', credentials: true}))
 
 mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log('Connected to MongoDB'))
