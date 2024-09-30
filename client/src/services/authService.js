@@ -11,3 +11,8 @@ export const signIn = async (formData) => {
     const res = await axios.post(API_URL + '/signin', formData)
     return res
 }
+
+export const google = async (formData) => {
+    const res = await axios.post(API_URL + '/google', formData)
+    return res
+}

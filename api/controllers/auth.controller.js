@@ -8,6 +8,12 @@ dotenv.config({ path: '../.env' });
 export const signup = async (req, res, next) => {
     const {username, email, password} = req.body;
 
+    // Check if user already is in db or not
+    const userIfExist = await User({username, email})
+    if (userIfExist) {
+        return next(errorHandler(500, 'User already exists. Try signing in.'))
+    }
+
     // Hash the password using bcrypt
     bcrypt.hash(password, 10, async (err, hash) => {
         if (err) {
@@ -56,3 +62,43 @@ export const signin = async (req, res, next) => {
         next(error)
     }
 }
+
+export const google = async (req, res, next) => {
+    const { name, email, photo } = req.body;
+
+    try {
+      const userExist = await User.findOne({ email });
+
+      if (userExist) {
+        const token = jwt.sign({ id: userExist._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const { password, ...rest } = userExist._doc;
+        return res
+          .cookie('access_token', token, { httpOnly: true, maxAge: 3600000 }) // 1 hour expiry
+          .status(200)
+          .json(rest);
+
+      } else {
+        // Create random password for new user and hashing
+        const randomPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+        const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+        const newUser = new User({
+          username: name.split(' ').join('').toLowerCase() + Math.floor(10000 * Math.random()),
+          email: email,
+          password: hashedPassword,
+          profile_pic: photo,
+        });
+
+        await newUser.save();
+
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const { password, ...rest } = newUser._doc;
+        return res
+          .cookie('access_token', token, { httpOnly: true, maxAge: 3600000 }) // 1 hour expiry
+          .status(200)
+          .json(rest);
+      }
+    } catch (error) {
+      next(errorHandler(500, 'An error occurred during the authentication process'));
+    }
+  };
