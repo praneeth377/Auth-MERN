@@ -9,7 +9,7 @@ export const signup = async (req, res, next) => {
     const {username, email, password} = req.body;
 
     // Check if user already is in db or not
-    const userIfExist = await User({username, email})
+    const userIfExist = await User.findOne({username: username, email: email})
     if (userIfExist) {
         return next(errorHandler(500, 'User already exists. Try signing in.'))
     }

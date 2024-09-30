@@ -15,7 +15,7 @@ function Header() {
             <Link to="/about"><li>About</li></Link>
             <Link to="/sign-in">
               {currentUser ?
-              (<img className="h-7 w-7 rounded-full object-cover" src={currentUser.profile_pic} alt="profile-pic"></img>) :
+              (<Link to="/profile"><img className="h-7 w-7 rounded-full object-cover" src={currentUser.profile_pic} alt="profile-pic"></img></Link>) :
               (<li>Sign In</li>)}
             </Link>
         </ul>

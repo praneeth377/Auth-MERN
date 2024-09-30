@@ -21,7 +21,7 @@ function SignIn() {
       ...prevData,
       [id]: value
     }));
-    dispatch(userDataOnChange(formData))
+    // dispatch(userDataOnChange(formData))
 
     if (formData.email.length > 0 && formData.password.length > 1) {
       setDisable(false);
@@ -29,7 +29,8 @@ function SignIn() {
       setDisable(true);
     }
   };
-  console.log(formData);
+  //console.log(formData);
+  //dispatch(userDataOnChange(formData))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
