@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { signIn } from "../services/authService"
-import { signInSuccess, signInFailure, signInStart, userDataOnChange } from "../redux/user/userSlice"
+import { signInSuccess, signInFailure, signInStart } from "../redux/user/userSlice"
 import {useDispatch, useSelector} from "react-redux"
 import OAuth from "../components/OAuth"
 
