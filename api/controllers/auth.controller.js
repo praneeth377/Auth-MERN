@@ -53,7 +53,7 @@ export const signin = async (req, res, next) => {
                 const token = jwt.sign({id: validUser._id}, process.env.JWT_SECRET, {expiresIn: '1h'})
                 const {password: password, ...rest} = validUser._doc
                 res
-                    .cookie('access_token', token, { httpOnly: true, maxAge: 3600000 })
+                    .cookie('access_token', token, { httpOnly: true, maxAge: 3600000, sameSite: 'None' })
                     .status(200)
                     .json(rest)
             }
@@ -73,7 +73,7 @@ export const google = async (req, res, next) => {
         const token = jwt.sign({ id: userExist._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         const { password, ...rest } = userExist._doc;
         return res
-          .cookie('access_token', token, { httpOnly: true, maxAge: 3600000 }) // 1 hour expiry
+          .cookie('access_token', token, { httpOnly: true, maxAge: 3600000, sameSite: 'None' }) // 1 hour expiry
           .status(200)
           .json(rest);
 
@@ -94,7 +94,7 @@ export const google = async (req, res, next) => {
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         const { password, ...rest } = newUser._doc;
         return res
-          .cookie('access_token', token, { httpOnly: true, maxAge: 3600000 }) // 1 hour expiry
+          .cookie('access_token', token, { httpOnly: true, maxAge: 3600000, sameSite: 'None' }) // 1 hour expiry
           .status(200)
           .json(rest);
       }
