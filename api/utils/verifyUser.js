@@ -4,9 +4,11 @@ import errorHandler from './error.js';
 dotenv.config({ path: '../.env' });
 
 export const verifyToken = (req, res, next) => {
-    console.log(req.cookie)
-    const token = req.cookie.access_token
-    console.log(token)
+    console.log('All headers:', req.headers);
+    console.log('Cookie header:', req.headers.cookie);
+    console.log('Parsed cookies:', req.cookies);
+    const token = req.cookies.access_token
+    //console.log(token)
 
     if (!token) return next(errorHandler(401, 'You need to Login'))
 
