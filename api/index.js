@@ -1,11 +1,11 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import cookieParser from 'cookie-parser'
-import userRoute from './routes/user.route.js';
-import authRoute from './routes/auth.route.js';
-import updateRoute from './routes/update.route.js';
+const express = require("express")
+const mongoose = require("mongoose")
+const cors = require("cors")
+const dotenv = require("dotenv")
+const cookieParser = require("cookie-parser")
+const userRoute = require("./routes/user.route.js")
+const authRoute = require("./routes/auth.route.js")
+const updateRoute = require("./routes/update.route.js")
 dotenv.config();
 
 const port = 3000

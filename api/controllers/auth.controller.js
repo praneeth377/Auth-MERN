@@ -1,11 +1,11 @@
-import User from "../models/user.model.js";
-import bcrypt from "bcrypt";
-import dotenv from 'dotenv';
-import jwt from "jsonwebtoken";
-import errorHandler from "../utils/error.js";
-dotenv.config({ path: '../.env' });
+const User =  require("../models/user.model.js")
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+const dotenv = require("dotenv")
+const { errorHandler } = require("../utils/error.js")
+dotenv.config({ path: '../.env' })
 
-export const signup = async (req, res, next) => {
+exports.signup = async (req, res, next) => {
     const {username, email, password} = req.body;
 
     // Check if user already is in db or not
@@ -32,7 +32,7 @@ export const signup = async (req, res, next) => {
     })
 }
 
-export const signin = async (req, res, next) => {
+exports.signin = async (req, res, next) => {
     const {email, password} = req.body;
 
     try {
@@ -55,7 +55,7 @@ export const signin = async (req, res, next) => {
                 res
                     .cookie('access_token', token, { httpOnly: true, maxAge: 3600000, sameSite: 'None' })
                     .status(200)
-                    .json(rest)
+                    .json({...rest, token})
             }
         })
     } catch (error) {
@@ -63,7 +63,7 @@ export const signin = async (req, res, next) => {
     }
 }
 
-export const google = async (req, res, next) => {
+exports.google = async (req, res, next) => {
     const { name, email, photo } = req.body;
 
     try {
@@ -75,7 +75,7 @@ export const google = async (req, res, next) => {
         return res
           .cookie('access_token', token, { httpOnly: true, maxAge: 3600000, sameSite: 'None' }) // 1 hour expiry
           .status(200)
-          .json(rest);
+          .json({...rest, token});
 
       } else {
         // Create random password for new user and hashing
@@ -96,7 +96,7 @@ export const google = async (req, res, next) => {
         return res
           .cookie('access_token', token, { httpOnly: true, maxAge: 3600000, sameSite: 'None' }) // 1 hour expiry
           .status(200)
-          .json(rest);
+          .json({...rest, token});
       }
     } catch (error) {
       next(errorHandler(500, 'An error occurred during the authentication process'));

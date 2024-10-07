@@ -1,8 +1,8 @@
-import bcrypt, { hash } from 'bcrypt'
-import User from '../models/user.model.js'
-import errorHandler from "../utils/error.js"
+const User =  require("../models/user.model.js")
+const bcrypt = require("bcrypt")
+const { errorHandler } = require("../utils/error.js")
 
-export const update = async (req, res, next) => {
+exports.update = async (req, res, next) => {
     if (req.user.id != req.params.id) {
         return next(errorHandler(401, 'You can update only your account!'))
     }

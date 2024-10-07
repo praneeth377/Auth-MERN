@@ -15,7 +15,7 @@ function Profile() {
   const [inputData, setInputData] = useState({username: currentUser.username, email: currentUser.email, password: ''})
   const dispatch = useDispatch()
   console.log(formData)
-  //console.log(inputData)
+  console.log(inputData)
 
   // Check if user is authenticated
   useEffect(() => {
